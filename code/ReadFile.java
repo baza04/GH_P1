@@ -14,7 +14,7 @@ class SimpleFileReader {
         BufferedReader br = new BufferedReader(new FileReader(inputFile));
         BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));
 
-        String str;
+        String str = "";
 
         while ((str = br.readLine()) != null) {
             System.out.println(str);
