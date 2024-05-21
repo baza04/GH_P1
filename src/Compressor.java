@@ -8,16 +8,17 @@ import java.util.*;
 public class Compressor {
     public static String srcPath = "./resources/input.txt";
     public static String dstPath = "./resources/output.sc";
+    public static String dst2Path = "./resources/readable.txt";
     private static HashMap <String, Integer> dict;
-
-    // // init
-    // private Compressor() {
-    // }
+    private static HashMap <String, String> dictRev;
 
     public static void main(String[] args) throws Exception {
             BufferedReader br = new BufferedReader(new FileReader(new File(srcPath)));
             BufferedWriter bw = new BufferedWriter(new FileWriter(new File(dstPath)));
-            dict = new HashMap<>(); // init this
+            BufferedWriter bw2 = new BufferedWriter(new FileWriter(new File(dst2Path)));
+            
+            dict = new HashMap<>();
+            dictRev = new HashMap<>();
     
             String allFileStr = "";
             String str = "";
@@ -25,19 +26,20 @@ public class Compressor {
             while ((str = br.readLine()) != null) {
                 allFileStr += str + " \\n "; // replace "\\n" after decompress
                 System.out.println(str);
-                // bw.write(str.substring(0,1)+"\n");
             }
     
             String compressedText = compress(allFileStr);
             // write compressed txt to file
             bw.write(compressedText);
             
-            String Text = compress(allFileStr);
-            // String compressedText = "";
+
+            String decompressedText = decompress(compressedText);
+            bw2.write(decompressedText);
             
             // close buffered reader & writer;
             br.close();
             bw.close();
+            bw2.close();
     }
 
     public static String compress(String input) {
@@ -45,11 +47,11 @@ public class Compressor {
         Integer wordIndex = 0;
 
         String[] words = input.split("\\s+");
-        
 
         for (String word : words) {
             if (!dict.containsKey(word)) {
                 dict.put(word, wordIndex);
+                dictRev.put(wordIndex+"", word);
                 wordIndex++;
             }
 
@@ -58,5 +60,24 @@ public class Compressor {
         }
 
         return compressedText.substring(0, compressedText.length()-1);
+    }
+
+    public static String decompress(String input) {
+        String result = "";
+
+        String[] keys = input.split("\\s+");
+
+        for (String key : keys) {
+            if (!dictRev.containsKey(key)) {
+                continue;
+            }
+
+            String word = dictRev.get(key);
+            result += word + " ";
+        }
+
+        result = result.replace(" \\n ", "\n");
+
+        return result.substring(0, result.length()-1);
     }
 }
