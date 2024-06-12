@@ -13,13 +13,16 @@ public class Compressor {
     private static HashMap <String, String> dictRev;
 
     public static void main(String[] args) throws Exception {
+            // init readers and writers
             BufferedReader br = new BufferedReader(new FileReader(new File(srcPath)));
             BufferedWriter bw = new BufferedWriter(new FileWriter(new File(dstPath)));
             BufferedWriter bw2 = new BufferedWriter(new FileWriter(new File(dst2Path)));
             
+            // init hash maps
             dict = new HashMap<>();
             dictRev = new HashMap<>();
     
+            
             String allFileStr = "";
             String str = "";
     
