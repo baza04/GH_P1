@@ -22,7 +22,7 @@ public class Compressor {
             dict = new HashMap<>();
             dictRev = new HashMap<>();
     
-            
+
             String allFileStr = "";
             String str = "";
     
@@ -84,3 +84,4 @@ public class Compressor {
         return result.substring(0, result.length()-1);
     }
 }
+
